@@ -54,8 +54,8 @@ async def run_chat():
     config = {"configurable": {"thread_id": CONVERSATION_ID}}
     chat_history = []
     
-    print("\n[Sistema de Autenticación de Emporyum Tech]")
-    user_id_input = input(f"Por favor ingresa tu ID de usuario (por defecto: {DEFAULT_USER_ID}): ").strip()
+    print("\n[Emporyum Tech Authentication System]")
+    user_id_input = input(f"Please enter your user ID (default: {DEFAULT_USER_ID}): ").strip()
     active_user_id = user_id_input if user_id_input else DEFAULT_USER_ID
 
     user_info = MOCK_USERS.get(active_user_id)
