@@ -1,46 +1,46 @@
-# Arquitectura del Asistente Emporyum Tech
+# Emporyum Tech Assistant Architecture
 
-## 1. Visión General del Sistema
+## 1. System Overview
 
-El sistema fue rediseñado utilizando un modelo de agente condicional en **LangGraph** y LLMs (Google Gemini 2.5 Flash / GPT-4o-mini). La arquitectura original, que pasaba todos los datos crudos y reglas a un único nodo genérico, fue reemplazada por un enrutador robusto y nodos específicos de manejo de dominios.
+The system was redesigned using a conditional agent model in **LangGraph** and LLMs (Google Gemini 2.5 Flash / GPT-4o-mini). The original architecture, which passed all raw data and rules to a single generic node, was replaced by a robust router and domain-specific handling nodes.
 
-### Diagrama de Flujo
+### Flowchart
 
 ```mermaid
 graph TD
-    A[Inicio] --> B(fetch_user_data)
-    B --> C{Enrutador Semántico}
+    A[Start] --> B(fetch_user_data)
+    B --> C{Semantic Router}
     
-    C -- "Clasifica como RETURNS (Devoluciones)" --> D[handle_returns]
-    C -- "Clasifica como otro tema" --> E[handle_general]
+    C -- "Classifies as RETURNS" --> D[handle_returns]
+    C -- "Classifies as other topic" --> E[handle_general]
     C -- "is_return_in_progress == True" --> D
     
-    D --> F[Evadido directamente en la próxima iteración]
-    D --> Z[FIN]
+    D --> F[Bypassed directly in the next iteration]
+    D --> Z[END]
     E --> Z
 ```
 
-## 2. Decisiones Clave de Diseño y Compromisos (Trade-offs)
+## 2. Key Design Decisions and Trade-offs
 
-### A. Enrutador Independiente (Semantic Router)
-- **Decisión**: Se agregó el nodo `router.py` antes de cualquier procesamiento de generación de respuesta.
-- **Razón**: Para proveer al LLM final únicamente el contexto relevante (ej. solo la política de *Pagos* cuando preguntan por cuotas), limitando las alucinaciones causadas por "sobrecarga de contexto", donde antes combinaba pagos con políticas operativas de envío.
-- **Compromiso (Trade-off)**: Añade una llamada extra al LLM (mayor latencia y costo). Esto es parcialmente compensado mediante la estructuración estricta de la salida (Pydantic / Structured Output) para una inferencia rápida del enrutador.
+### A. Independent Router (Semantic Router)
+- **Decision**: Added the `router.py` node prior to any response generation processing.
+- **Reason**: To supply the final LLM with only the relevant context (e.g. only the *Payments* policy when they ask about installments), limiting hallucinations caused by "context overload", where it previously combined payments with shipping operating policies.
+- **Trade-off**: Adds an extra LLM call (higher latency and cost). This is partially offset by strictly structuring the output (Pydantic / Structured Output) for fast router inference.
 
-### B. Manejo Dedicado para Flujos Multi-Paso (Flujo de Devoluciones)
-- **Decisión**: Se separó el dominio de devoluciones `handle_returns.py` en un nodo dedicado con variables de máquina de estado (`current_step`, `is_return_in_progress`).
-- **Razón**: La entrevista de Operaciones dictaba requerimientos muy estrictos y secuencias de validación ininterrumpidas (ej. Confirmar plazo de 15 días -> Preguntar motivo -> Programar recolección). Un agente genérico a menudo olvida preguntar el motivo antes de programar la recogida.
-- **Compromiso (Trade-off)**: Requiere mantener un estado (State) del Grafo que evade el Enrutador mientras `is_return_in_progress` sea verdadero, asegurando que la respuesta contextual del usuario no despiste al enrutador a mitad de una transacción de soporte técnico.
+### B. Dedicated Handling for Multi-Step Flows (Returns Flow)
+- **Decision**: Separated the returns domain `handle_returns.py` into a dedicated node with state machine variables (`current_step`, `is_return_in_progress`).
+- **Reason**: The Operations interview dictated very strict requirements and uninterrupted validation sequences (e.g. Confirm 15-day term -> Ask for reason -> Schedule pickup). A generic agent often forgets to ask for the reason before scheduling the pickup.
+- **Trade-off**: Requires maintaining a Graph state that bypasses the Router as long as `is_return_in_progress` is true, ensuring that the user's contextual response does not mislead the router in the middle of a technical support transaction.
 
-### C. Sistema de Filtro de Datos
-- **Decisión**: Se refinó `data_filter.py` para inyectar *solo* los campos obligatorios correspondientes al *tema seleccionado*. 
-- **Razón**: Exponer la lista completa de direcciones de envío, correos y pedidos no relacionados consume demasiados tokens, ralentiza el modelo, aumenta los costos y supone un riesgo potencial de seguridad (Fuga de Datos e Inyección de Prompt en perfiles grandes).
-- **Compromiso (Trade-off)**: Añade un sub-proceso intermedio en Python que mapea `topic_variables`. Facilita las pruebas unitarias pero centraliza la responsabilidad del flujo en la `SCENARIO_KNOWLEDGE_BASE`.
+### C. Data Filter System
+- **Decision**: Refined `data_filter.py` to inject *only* the mandatory fields corresponding to the *selected topic*. 
+- **Reason**: Exposing the full list of unrelated shipping addresses, emails and orders consumes too many tokens, slows down the model, increases costs and poses a potential security risk (Data Leakage and Prompt Injection in large profiles).
+- **Trade-off**: Adds an intermediate Python sub-process that maps `topic_variables`. Facilitates unit testing but centralizes flow responsibility in the `SCENARIO_KNOWLEDGE_BASE`.
 
-### D. Centralización de la Base de Conocimientos (KB)
-- **Decisión**: Se consolidó toda la información de las 4 entrevistas en un diccionario llamado `SCENARIO_KNOWLEDGE_BASE`.
-- **Razón**: Mantuvo la abstracción del código (Agentes modulares) y desacopló la lógica funcional del "contexto y políticas". Cuando se escale o rediseñe la infraestructura hacia una base de datos CMS externa (como se propuso en el entregable de MLOps), `handle_general.py` será agnóstico al origen de los prompts, mitigando fallas arquitectónicas.
+### D. Knowledge Base (KB) Centralization
+- **Decision**: Consolidated all information from the 4 interviews into a dictionary called `SCENARIO_KNOWLEDGE_BASE`.
+- **Reason**: Kept the code abstraction (Modular agents) and decoupled the functional logic from "context and policies". When infrastructure is scaled or redesigned towards an external CMS database (as proposed in the MLOps deliverable), `handle_general.py` will be agnostic to the origin of the prompts, mitigating architectural flaws.
 
-## 3. Próximos Pasos Proyectados
-1. Reemplazar la memoria en caché local (`MemorySaver`) por `PostgresSaver` o un adaptador nativo de Redis.
-2. Inyectar Caché Semántico o una *Base de Datos Vectorial* (RAG) en lugar de un diccionario estático para soportar un rango masivo y dinámico de miles de productos de Emporyum Tech sin inflar la Ventana de Contexto (Prompt Window) con texto misceláneo extenso de reglas.
+## 3. Projected Next Steps
+1. Replace the local cache memory (`MemorySaver`) with `PostgresSaver` or a native Redis adapter.
+2. Inject Semantic Cache or a *Vector Database* (RAG) instead of a static dictionary to support a massive and dynamic range of thousands of Emporyum Tech products without inflating the Context Window (Prompt Window) with extensive miscellaneous rule text.
