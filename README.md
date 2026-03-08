@@ -7,10 +7,9 @@
 ### 📚 Exclusive Solution Documentation
 To deeply understand the engineering, architecture, and scalability decisions, please refer to the following documents I have prepared:
 
-1. 🗺️ **[Step-by-Step Flow Explanation (LangGraph)](LANGGRAPH_FLOW_EXPLAINED.md)** - *Recommended for understanding the diagram above.*
-2. 🧠 **[Expansive Project Documentation](PROJECT_DOCUMENTATION.md)** - *How the 5 phases of the project were developed.*
-3. 🏛️ **[Architecture and Design](deliverables/architecture.md)** - *Technical decisions and trade-offs.*
-4. ☁️ **[Deployment to Production Answers](deliverables/deployment_answers.md)** - *Scaling strategies for 10,000 users, databases, and MLOps.*
+1. 🧠 **[Expansive Project Documentation](PROJECT_DOCUMENTATION.md)** - *How the 5 phases of the project were developed.*
+2. 🏛️ **[Architecture and Design](deliverables/architecture.md)** - *Technical decisions and trade-offs.*
+3. ☁️ **[Deployment to Production Answers](deliverables/deployment_answers.md)** - *Scaling strategies for 10,000 users, databases, and MLOps.*
 
 ---
 
