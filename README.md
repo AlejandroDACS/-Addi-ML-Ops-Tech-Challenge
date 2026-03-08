@@ -1,4 +1,4 @@
-# AI & ML Ops Tech Challenge - Emporyum Tech Assistant
+# AI & ML Ops Tech Challenge
 
 ![LangGraph Architecture](langgraph_architecture.png)
 
