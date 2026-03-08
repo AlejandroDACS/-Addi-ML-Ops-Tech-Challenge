@@ -6,9 +6,8 @@
 Para comprender a fondo las decisiones de ingeniería, arquitectura y escalabilidad, consulta los siguientes documentos que he preparado:
 
 1. 🧠 **[Documentación Expansiva del Proyecto](PROJECT_DOCUMENTATION.md)** - *Cómo se desarrollaron las 5 fases del proyecto.*
-2. 🗺️ **[Explicación del Flujo Paso a Paso (LangGraph)](LANGGRAPH_FLOW_EXPLAINED.md)** - *Cómo se procesa la solicitud del usuario.*
-3. 🏛️ **[Arquitectura y Diseño](deliverables/architecture.md)** - *Decisiones técnicas y compromisos (trade-offs).*
-4. ☁️ **[Respuestas de Despliegue a Producción](deliverables/deployment_answers.md)** - *Estrategias de escalamiento para 10,000 usuarios, bases de datos y MLOps.*
+2. 🏛️ **[Arquitectura y Diseño](deliverables/architecture.md)** - *Decisiones técnicas y compromisos (trade-offs).*
+3. ☁️ **[Respuestas de Despliegue a Producción](deliverables/deployment_answers.md)** - *Estrategias de escalamiento para 10,000 usuarios, bases de datos y MLOps.*
 
 ---
 
