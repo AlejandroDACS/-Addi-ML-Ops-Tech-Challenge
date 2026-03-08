@@ -1,7 +1,5 @@
 # AI & ML Ops Tech Challenge
 
-![LangGraph Architecture](langgraph_architecture.png)
-
 > **🚀 Solution Completed:** This repository contains the final implementation for the AI & ML Ops Tech Challenge. An obsolete system was refactored into a **Stateful Multi-Agent Workflow** powered by *LangGraph* and *Google Gemini 2.5 Flash*.
 
 ### 📚 Exclusive Solution Documentation
