@@ -10,12 +10,12 @@ In this challenge you used `MemorySaver` for checkpointing (in-memory, single pr
 In production with thousands of concurrent users, what checkpointing strategy would you use?
 What are the trade-offs between different persistence backends (PostgreSQL, Redis, DynamoDB, etc.)?
 
-**Your answer:**
-For production, I would replace the in-memory `MemorySaver` with a real database like PostgreSQL (using LangGraph's native PostgresSaver) or Redis. 
+**Tu respuesta:**
+Para producción, reemplazaría la memoria local (`MemorySaver`) por una base de datos real como **PostgreSQL** (usando PostgresSaver) o **Redis**.
 
-- **Redis** is extremely fast and perfect for handling thousands of chat states temporarily, but it's not ideal for long-term storage. 
-- **PostgreSQL** is slower than Redis but provides safe, permanent storage, which is great if we want to analyze past conversations later. 
-- **DynamoDB** is another good option because it scales automatically without managing servers, but it can get very expensive if the bot gets too much traffic.
+- **Redis** es extremadamente rápido y perfecto para manejar miles de estados de chat temporalmente, pero no es ideal para almacenamiento a largo plazo.
+- **PostgreSQL** es más lento que Redis pero ofrece un almacenamiento seguro y permanente, lo cual es excelente si queremos analizar conversaciones pasadas más adelante.
+- **DynamoDB** es otra buena opción porque escala automáticamente sin necesidad de gestionar servidores, pero puede volverse muy costosa si el bot recibe demasiado tráfico.
 
 ---
 
@@ -25,16 +25,16 @@ How would you monitor this agent in production?
 What metrics would you track? How would you detect when the router is misclassifying queries?
 How would you implement logging for debugging conversation flows?
 
-**Your answer:**
-To monitor the agent in production, standard APM isn't enough, so I would rely on GenAI-focused tools like LangSmith or DataDog LLM Observability. These allow for granular tracing of every graph node.
+**Tu respuesta:**
+Para monitorear el agente en producción, las APM estándar no son suficientes, por lo que dependería de herramientas enfocadas en GenAI como LangSmith o DataDog LLM Observability. Estas permiten un rastreo detallado de cada nodo del grafo.
 
-Here is my breakdown for tracking and debugging:
+Aquí está mi desglose para rastreo y depuración:
 
-- Metrics to Track: I would focus on operational and business metrics, specifically token consumption, latency per step, and cost per LLM request.
+- **Métricas a Rastrear:** Me enfocaría en métricas operativas y de negocio, específicamente el consumo de tokens, latencia por paso y costo por petición al LLM.
 
-- Detecting Router Misclassification: I approach this analytically. I would monitor the baseline distribution of routed topics to detect anomalies—for example, an unexpected spike in the FUERA_DE_ALCANCE category. I'd also track implicit user frustration signals, like a node detecting requests for a human agent. Running semantic clustering on these failed interactions periodically would help pinpoint the router's blind spots.
+- **Detección de Mala Clasificación del Router:** Abordaría esto analíticamente. Monitorearía la distribución base de los temas enrutados para detectar anomalías, por ejemplo, un pico inesperado en la categoría `FUERA_DE_ALCANCE`. También rastrearía señales implícitas de frustración del usuario, como un nodo detectando solicitudes para un agente humano. Ejecutar agrupamiento semántico (clustering) sobre estas interacciones fallidas periódicamente ayudaría a identificar los puntos ciegos del router.
 
-- Logging & Debugging: I would implement strict, structured logging (JSON format) transversally across the application. By automatically injecting a conversation_id and user_id into every log entry, we can easily trace and reconstruct the exact flow of any problematic conversation.
+- **Registro (Logging) y Depuración:** Implementaría un registro estricto y estructurado (formato JSON) de manera transversal en la aplicación. Al inyectar automáticamente un `conversation_id` y `user_id` en cada entrada de registro, podemos rastrear y reconstruir fácilmente el flujo exacto de cualquier conversación problemática.
 
 ---
 
@@ -44,11 +44,11 @@ The business teams frequently update product information, promotions, and polici
 How would you design the system so the Knowledge Base can be updated without redeploying the application?
 What are the pros/cons of storing the KB in code vs. a database vs. a CMS?
 
-**Your answer:**
-I would move the Knowledge Base out of the code and put it in a Database. This way, the business team can update content without needing engineers to deploy the app again. To keep it fast, the app would fetch this data periodically and cache it in Redis. 
+**Tu respuesta:**
+Movería la Base de Conocimientos fuera del código y la pondría en una Base de Datos. De esta manera, el equipo de negocio puede actualizar el contenido sin necesitar ingenieros para desplegar la aplicación nuevamente. Para mantenerlo rápido, la aplicación obtendría estos datos periódicamente y los guardaría en caché en Redis.
 
-- **KB in Code:** It's very safe because developers review every change via Git, but it's too slow for business teams.
-- **KB in Database:** It's fast and easy for non-technical teams to update, but we would need to add strong validations so that a typo by the business team doesn't break the bot or cause hallucinations.
+- **KB en Código:** Es muy seguro porque los desarrolladores revisan cada cambio a través de Git, pero es demasiado lento para los equipos de negocio.
+- **KB en Base de Datos:** Es rápido y fácil de actualizar para equipos no técnicos, pero necesitaríamos agregar validaciones fuertes para que un error tipográfico del equipo de negocio no rompa el bot o cause alucinaciones.
 
 ---
 
@@ -57,10 +57,10 @@ I would move the Knowledge Base out of the code and put it in a Database. This w
 If this bot needs to handle 10,000 concurrent conversations, what architectural changes would you make?
 Consider: LLM API rate limits, latency requirements (< 5s response time), cost optimization strategies.
 
-**Your answer:**
-To handle 10,000 users, I would first implement Semantic Caching. If many users ask the exact same generic question, the system returns the saved answer instantly instead of paying the LLM again. 
+**Tu respuesta:**
+Para manejar 10,000 usuarios, primero implementaría **Caché Semántico**. Si muchos usuarios hacen exactamente la misma pregunta genérica, el sistema devuelve la respuesta guardada al instante en lugar de pagarle al LLM de nuevo.
 
-To avoid hitting API limits with Gemini or OpenAI, we would need to use Load Balancing across multiple API keys. We could also host our own smaller open-source models on scalable cloud servers to reduce costs. Finally, I would use token streaming so the user sees the text appearing word-by-word instantly, making the bot feel much faster.
+Para evitar alcanzar los límites de API con Gemini u OpenAI, necesitaríamos usar Balanceo de Carga (Load Balancing) a través de múltiples claves de API. También podríamos alojar nuestros propios modelos de código abierto más pequeños en servidores en la nube escalables para reducir costos. Finalmente, usaría **token streaming** para que el usuario vea el texto aparecer palabra por palabra al instante, haciendo que el bot se sienta mucho más rápido.
 
 ---
 
@@ -70,10 +70,10 @@ How would you test this agent beyond the manual inline.py testing used in this c
 Describe your approach to: unit tests for individual agents, integration tests for the full graph,
 LLM output quality evaluation, and regression testing when the KB changes.
 
-**Your answer:**
-I would use a multi-level testing approach. For standard code (like data filters), I'd use regular unit tests with `pytest`. For the LangGraph flows, I would write automated integration tests that simulate a user completing a full return process to ensure the graph doesn't get stuck. 
+**Tu respuesta:**
+Usaría un enfoque de pruebas de múltiples niveles. Para el código estándar (como los filtros de datos), usaría pruebas unitarias regulares con `pytest`. Para los flujos de LangGraph, escribiría pruebas de integración automatizadas que simulen a un usuario completando un proceso de devolución completo para asegurar que el grafo no se atasque.
 
-Because LLM answers are unpredictable, traditional tests aren't enough. I would use an "LLM-as-a-judge" framework (like LangChain Evals or Ragas). Every time we update the code or the Knowledge Base, this framework would automatically grade the AI's new answers against a set of expected good answers to ensure we didn't break anything.
+Debido a que las respuestas de los LLM son impredecibles, las pruebas tradicionales no son suficientes. Usaría un marco de trabajo de **"LLM como juez"** (como LangChain Evals o Ragas). Cada vez que actualicemos el código o la Base de Conocimientos, este marco de trabajo calificaría automáticamente las nuevas respuestas de la IA contra un conjunto de buenas respuestas esperadas para asegurar que no rompimos nada.
 
 ---
 
@@ -83,9 +83,9 @@ What security concerns exist with this architecture (prompt injection, data leak
 How would you prevent the bot from generating harmful or incorrect content?
 How would you handle API key management and secrets in a production deployment?
 
-**Your answer:**
-The biggest security risk is **Prompt Injection**, where a malicious user tricks the bot into revealing private data or its internal instructions. 
+**Tu respuesta:**
+El mayor riesgo de seguridad es el **Prompt Injection** (Inyección de Prompt), donde un usuario malicioso engaña al bot para que revele datos privados o sus instrucciones internas.
 
-To prevent this, the bot must only have access to the specific data of the authenticated `user_id`, ensuring it can never accidentally leak another customer's info. I would also add **Guardrails**, which are safety checks that block offensive or manipulative inputs before they reach the main LLM. 
+Para prevenir esto, el bot solo debe tener acceso a los datos específicos del `user_id` autenticado, asegurando que nunca pueda filtrar accidentalmente la información de otro cliente. También agregaría **Guardrails** (barreras de seguridad), que son verificaciones de seguridad que bloquean entradas ofensivas o manipuladoras antes de que lleguen al LLM principal.
 
-For API keys, they should never be saved in the code. I would store them in a secure environment tool like **AWS Secrets Manager**, which safely injects them into the app during runtime without exposing them.
+Para las claves de API, nunca deben guardarse en el código. Las almacenaría en una herramienta de entorno seguro como AWS Secrets Manager, que las inyecta de forma segura en la aplicación durante el tiempo de ejecución sin exponerlas.
