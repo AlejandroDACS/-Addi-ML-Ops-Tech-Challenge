@@ -5,9 +5,9 @@
 ### 📚 Exclusive Solution Documentation
 To fully understand the engineering, architecture, and scalability decisions, please consult the following documents I have prepared:
 
-1. 🧠 **[Expansive Project Documentation](PROJECT_DOCUMENTATION.md)** - *How the 5 phases of the project were developed.*
-2. 🏛️ **[Architecture and Design](deliverables/architecture.md)** - *Technical decisions and trade-offs.*
-3. ☁️ **[Production Deployment Answers](deliverables/deployment_answers.md)** - *Scaling strategies for 10,000 users, databases, and MLOps.*
+1. 🧠 **[Expansive Project Documentation](PROJECT_DOCUMENTATION.md)** 
+2. 🏛️ **[Architecture and Design](deliverables/architecture.md)**
+3. ☁️ **[Production Deployment Answers](deliverables/deployment_answers.md)**
 
 ---
 
