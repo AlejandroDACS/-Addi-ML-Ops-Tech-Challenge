@@ -8,14 +8,14 @@ load_dotenv()
 
 class GeneralResponse(BaseModel):
     reasoning: str = Field(..., description="Breve razonamiento lógico de la respuesta. Máx 20 palabras.")
-    respuesta_final: str = Field(..., description="Respuesta final al usuario en español colombiano.")
+    respuesta_final: str = Field(..., description="Respuesta final al usuario en inglés (English).")
 
 GENERAL_SYSTEM_PROMPT = """\
 Eres el asistente virtual experto de Emporyum Tech. Emporyum Tech es un e-commerce colombiano \
 con opción de crédito y pagos en cuotas.
 
 ## REGLAS GENERALES Y DE PERSONALIDAD
-- SIEMPRE utiliza el idioma Español de Colombia y un tono amable y servicial.
+- SIEMPRE utiliza el idioma Inglés (English) y un tono amable y servicial.
 - SIEMPRE saluda o dirígete al usuario por su primer nombre (`primer_nombre`).
 - NUNCA compartas información confidencial (OTP, claves, cupos de crédito, contraseñas). En su lugar, guía sobre dónde encontrarla en la app.
 - Sé claro, conciso y estructurado (2-4 oraciones preferiblemente, o usa formato bullet points donde sirva).

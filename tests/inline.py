@@ -61,18 +61,18 @@ async def run_chat():
     user_info = MOCK_USERS.get(active_user_id)
 
     print(f"\n{'='*60}")
-    print(f"  Atención al Cliente - Emporyum Tech")
-    print(f"  Usuario autenticado: {active_user_id} | Conversación Activa")
-    print(f"  (Escribe 'salir' para cerrar la sesión, 'limpiar' para reiniciar)")
+    print(f"  Customer Service - Emporyum Tech")
+    print(f"  Authenticated User: {active_user_id} | Active Conversation")
+    print(f"  (Type 'exit' to close the session, 'reset' to clear history)")
     print(f"{'='*60}\n")
 
     if user_info:
         nombre = user_info.get("primer_nombre", "")
         
-        mensaje_inicial = f"ASSISTANT: ¡Hola {nombre}! Me alegra tenerte por aquí. ¿En qué te puedo colaborar el día de hoy?\n"
+        mensaje_inicial = f"ASSISTANT: Hi {nombre}! Happy to see you here. How can I help you today?\n"
         print(mensaje_inicial)
     else:
-        print("ASSISTANT: ¡Hola! No pude encontrar tus datos en nuestro sistema, pero dime, ¿en qué te puedo ayudar hoy?\n")
+        print("ASSISTANT: Hi! I couldn't find your data in our system, but tell me, how can I help you today?\n")
 
 
 
@@ -80,17 +80,17 @@ async def run_chat():
         try:
             query = input("YOU: ").strip()
         except (EOFError, KeyboardInterrupt):
-            print("\n¡Desconectando sesión. Hasta pronto!")
+            print("\nDisconnecting session. See you soon!")
             break
 
         if not query:
             continue
         if query.lower() in ("exit", "salir"):
-            print("¡Desconectando sesión. Hasta pronto!")
+            print("Disconnecting session. See you soon!")
             break
         if query.lower() in ("reset", "limpiar"):
             chat_history = []
-            print("[El historial de la conversación ha sido borrado]\n")
+            print("[Conversation history has been cleared]\n")
             continue
 
         try:

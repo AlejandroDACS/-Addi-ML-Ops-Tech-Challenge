@@ -8,7 +8,7 @@ load_dotenv()
 
 class ReturnsResponse(BaseModel):
     reasoning: str = Field(..., description="Breve razonamiento lógico. Máx 20 palabras.")
-    respuesta_final: str = Field(..., description="Respuesta al usuario guiándolo en la devolución.")
+    respuesta_final: str = Field(..., description="Respuesta al usuario guiándolo en la devolución en Inglés (English).")
     next_step: str = Field(..., description="El siguiente estado: 'STEP_1_VERIFY_AND_REASON' o 'STEP_2_CONFIRMATION' o 'COMPLETED'.")
     is_return_in_progress: bool = Field(..., description="True si debemos seguir en este flujo en el siguiente mensaje, False si ya finalizó o canceló la devolución o es un caso de escalamiento.")
 
@@ -42,7 +42,7 @@ PASO 2: CONFIRMACIÓN Y LOGÍSTICA (STEP_2_CONFIRMATION)
 - Una vez des el mensaje completo del PASO 2, finaliza el flujo: next_step='COMPLETED', is_return_in_progress=False.
 
 ADVERTENCIAS IMPORTANTES:
-- Usa español de Colombia y el nombre del usuario (`primer_nombre`).
+- Usa SIEMPRE Inglés (English) al responder y el nombre del usuario (`primer_nombre`).
 - NUNCA inventes números de seguimiento u órdenes que el usuario no tenga en DATOS DEL USUARIO.
 - No saltes restricciones de 15 días o de métodos de pago.
 """
