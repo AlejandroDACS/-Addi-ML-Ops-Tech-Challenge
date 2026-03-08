@@ -14,7 +14,7 @@ To deeply understand the engineering, architecture, and scalability decisions, p
 
 ---
 
-## Original Challenge Summary
+## Challenge Summary
 
 **Emporyum Tech** is a Colombian e-commerce platform offering buy-now-pay-later installment plans. In this challenge, you receive a **basic functional prototype** of an AI conversational assistant for Emporyum Tech. The prototype works end-to-end: you can ask it questions and it will answer. **But the quality is poor.** The architecture is minimal, the Knowledge Base is superficial, and the answers are vague and generic.
 
@@ -39,6 +39,9 @@ Run the basic solution first. See it work. Note the issues.
 poetry install
 
 # 2. Create your .env file and add your API key
+# SECURITY EXPLANATION: The actual .env file has been deliberately excluded
+# from this repository (via .gitignore) to prevent leaking private API Keys.
+# You must generate your own local copy using this template:
 cp .env.example .env
 
 # 3. Run the interactive assistant
