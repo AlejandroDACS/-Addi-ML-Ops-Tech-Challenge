@@ -10,7 +10,7 @@ To fully understand the engineering, architecture, and scalability decisions, pl
 ### 📚 additional challenge
 Now, we present the theoretical solution to the second selected problem, which was:
 
-🧠  **[Credit Default Prediction](Credit Default Prediction.html)** 
+🧠  **[Credit Default Prediction](Credit-Default-Prediction-Model.html)** 
 
 ---
 
