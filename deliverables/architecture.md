@@ -2,7 +2,7 @@
 
 ## 1. System Overview
 
-The system was redesigned using a conditional agent model in **LangGraph** and LLMs (Google Gemini 2.5 Flash / GPT-4o-mini). The original architecture, which passed all raw data and rules to a single generic node, was replaced by a robust router and domain-specific handling nodes.
+The system was redesigned using a conditional agent model in **LangGraph** and LLMs (Google Gemini 2.5 Flash). The original architecture, which passed all raw data and rules to a single generic node, was replaced by a robust router and domain-specific handling nodes.
 
 ### Flowchart
 
