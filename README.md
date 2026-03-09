@@ -8,7 +8,7 @@ To fully understand the engineering, architecture, and scalability decisions, pl
 3. ☁️ **[Production Deployment Answers](deliverables/deployment_answers.md)**
 
 ### 📚 additional challenge
-Now, we present the theoretical solution to the second selected problem, which was:
+Now, the option chosen to generate a high-level solution proposal was.
 
 🧠  **[Credit Default Prediction](Credit-Default-Prediction-Model.html)** 
 
