@@ -7,10 +7,10 @@ To fully understand the engineering, architecture, and scalability decisions, pl
 2. 🏛️ **[Architecture and Design](deliverables/architecture.md)**
 3. ☁️ **[Production Deployment Answers](deliverables/deployment_answers.md)**
 
-### 📚 additional challenge
+### 📂 additional challenge
 Now, the option chosen to generate a high-level solution proposal was.
 
-🧠  **[Credit Default Prediction](Credit-Default-Prediction-Model.html)** 
+🥈  **[Credit Default Prediction](Credit-Default-Prediction-Model.html)** 
 
 ---
 
