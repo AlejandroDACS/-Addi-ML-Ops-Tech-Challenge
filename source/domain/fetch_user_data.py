@@ -1,4 +1,3 @@
-"""First node: fetches user data from mock data store."""
 
 from typing import Any, Dict
 
@@ -10,7 +9,6 @@ async def fetch_user_data(state: GraphState) -> Dict[str, Any]:
     """Fetch user data from mock data store."""
     state["flow"].append("fetch_user_data")
 
-    # Skip if already fetched (checkpoint optimization)
     if state.get("user_data"):
         return {}
 
