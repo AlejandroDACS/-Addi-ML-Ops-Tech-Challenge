@@ -1,8 +1,6 @@
 from typing import Any, Dict
-
 from source.application.state import GraphState
 from source.adapters.utils.mock_data import MOCK_USERS
-
 
 async def fetch_user_data(state: GraphState) -> Dict[str, Any]:
     """Fetch user data from mock data store."""
